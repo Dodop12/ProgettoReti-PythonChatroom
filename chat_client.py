@@ -53,6 +53,10 @@ def start_chat():
             return
 
     NICKNAME = nickname_entry.get()
+    
+    if not NICKNAME:
+        messagebox.showerror("Errore", "Nickname non inserito.")
+        return
 
     ADDRESS = (HOST, PORT)
 
