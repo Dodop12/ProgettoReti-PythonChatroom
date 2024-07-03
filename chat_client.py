@@ -23,8 +23,8 @@ def send_message(event=None):
     try:
         client_socket.send(bytes(msg, "utf8"))
         if msg == "{quit}":
-            client_socket.close()
             chat_window.quit()
+            client_socket.close()
     except Exception as e:
         messagebox.showerror("Errore", f"Errore durante l'invio del messaggio: {e}")
 

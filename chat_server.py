@@ -31,27 +31,26 @@ def manage_client(client):
 
         while True:
             msg = client.recv(BUFFER_SIZE)
-            if msg != bytes("{quit}", "utf8"):
-                broadcast(msg, name + ": ")
-            else:
-                client.send(bytes("{quit}", "utf8"))
+            if msg == bytes("{quit}", "utf8"):
                 client.close()
                 del clients[client]
                 broadcast(bytes("%s ha abbandonato la chat." % name, "utf8"))
                 break
+            else:
+                broadcast(msg, name + ": ")
     except Exception as e:
         print(f"Errore di comunicazione con il client: {e}")
         client.close()
         if client in clients:
             del clients[client]
-            broadcast(bytes("%s si e' disconnesso dalla chat." % name, "utf8"))
+            broadcast(bytes("%s si e' disconnesso dalla chat a causa di un errore." % name, "utf8"))
 
 
 def broadcast(msg, tag=""):
     """Trasmette messaggi ai client connessi alla chat."""
-    for utente in clients:
+    for user in clients:
         try:
-            utente.send(bytes(tag, "utf8") + msg)
+            user.send(bytes(tag, "utf8") + msg)
         except Exception as e:
             print(f"Errore durante l'invio del messaggio: {e}")
 
