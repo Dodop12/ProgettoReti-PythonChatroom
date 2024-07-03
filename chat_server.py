@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""Script Python per la realizzazione di un Server multithread
-per connessioni CHAT asincrone.
-Corso di Programmazione di Reti - Università di Bologna"""
+"""Script relativo al server della chatroom in grado di supportare multiple connessioni 
+tramite un'architettura multithreaded."""
 
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
@@ -14,7 +13,7 @@ def accept_connections():
             client, client_address = SERVER.accept()
             print("%s:%s si è collegato." % client_address)
             addresses[client] = client_address
-            Thread(target=manage_client, args=(client,)).start()
+            Thread(target=manage_client, args=(client,)).start() # Crea e avvia il thread per il client
         except Exception as e:
             print(f"Errore nell'accettare una nuova connessione: {e}")
 

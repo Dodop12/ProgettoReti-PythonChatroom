@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Script relativa alla chat del client utilizzato per lanciare la GUI Tkinter."""
+"""Script relativo al client della chatroom."""
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import tkinter as tk
@@ -11,7 +11,7 @@ def receive():
     while True:
         try:
             msg = client_socket.recv(BUFFER_SIZE).decode("utf8")
-            msg_list.insert(tk.END, msg)
+            msg_list.insert(tk.END, msg) # Stampa il messaggio ricevuto nella chatbox
         except OSError:
             break
 
@@ -47,9 +47,7 @@ def start_chat():
         try:
             PORT = int(PORT)
         except ValueError:
-            messagebox.showerror(
-                "Porta non valida", "La porta deve essere un valore numerico intero."
-            )
+            messagebox.showerror("Porta non valida", "La porta deve essere un valore numerico intero.")
             return
 
     NICKNAME = nickname_entry.get()
@@ -65,13 +63,10 @@ def start_chat():
         client_socket.connect(ADDRESS)
         client_socket.send(bytes(NICKNAME, "utf8"))
     except Exception as e:
-        messagebox.showerror(
-            "Errore di connessione", f"Impossibile connettersi al server: {e}"
-        )
+        messagebox.showerror("Errore di connessione", f"Impossibile connettersi al server: {e}")
         return
 
-    # Chiude la finestra di login
-    login_window.withdraw()
+    login_window.withdraw() # Chiude la finestra di login
 
     # Crea la GUI della chat
     chat_window = tk.Toplevel()
@@ -99,7 +94,7 @@ def start_chat():
     quit_button = tk.Button(chat_window, text="Quit", command=quit, width=6)
     quit_button.pack(side=tk.LEFT, padx=5, pady=5)
 
-    chat_window.protocol("WM_DELETE_WINDOW", quit)
+    chat_window.protocol("WM_DELETE_WINDOW", quit) # Chiusura della finestra
 
     receive_thread = Thread(target=receive)
     receive_thread.start()
